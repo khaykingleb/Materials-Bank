@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "materials"
-version = "0.1.0"
-description = "\"Materials bank to store relevant information\""
+version = "0.0.0"
+description = "Materials bank to store relevant information"
 authors = ["Gleb Khaykin <khaykingleb@gmail.com>"]
 license = "MIT"
 readme = "README.md"
