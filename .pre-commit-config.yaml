@@ -1,0 +1,64 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-toml
+      - id: check-yaml
+      - id: check-json
+        args:
+          - "--autofix"
+      - id: pretty-format-json
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-added-large-files
+        args: ["--maxkb=5000"]
+      - id: debug-statements
+      - id: name-tests-test
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+    - id: black
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+    - id: flake8  # C90, E, F, W
+      additional_dependencies:
+        - darglint  # DAR
+        - flake8-docstrings  # D
+        - flake8-annotations  # ANN
+        - flake8-bugbear  # B; B9 (optional)
+        - flake8-cognitive-complexity  # CCR
+        - flake8-comprehensions  # C4
+        - flake8-import-order  # I
+        - flake8-pytest-style  # PT
+        - pep8-naming  # N8
+
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.6.3
+    hooks:
+      - id: nbqa-black
+      - id: nbqa-isort
+      - id: nbqa-flake8
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.4.0
+    hooks:
+      - id: commitlint
+        stages: [commit-msg]
+        additional_dependencies:
+          - "@commitlint/config-conventional"
