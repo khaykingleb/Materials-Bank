@@ -26,7 +26,6 @@ module "vpc" {
   tags        = local.tags
 }
 
-
 module "security_groups" {
   source = "./modules/security"
 
@@ -43,7 +42,6 @@ module "security_groups" {
     module.vpc.private_subnets_ids
   ]
 }
-
 
 module "elastic_load_balancer" {
   source = "./modules/elb"
