@@ -16,8 +16,7 @@ resource "aws_vpc" "this" {
 ##@ Subnets
 
 resource "aws_subnet" "public" {
-  count = var.subnets_count
-
+  count                   = var.subnets_count
   vpc_id                  = aws_vpc.this.id
   cidr_block              = "${var.cidr_base}.${count.index + 10}.0/28" # 11 hosts
   availability_zone       = data.aws_availability_zones.available.names[count.index]
@@ -28,8 +27,7 @@ resource "aws_subnet" "public" {
 
 
 resource "aws_subnet" "private" {
-  count = var.subnets_count
-
+  count                   = var.subnets_count
   vpc_id                  = aws_vpc.this.id
   cidr_block              = "${var.cidr_base}.${count.index + 20}.0/28" # 251 hosts
   availability_zone       = data.aws_availability_zones.available.names[count.index]
@@ -57,8 +55,7 @@ resource "aws_eip" "nat_eip" {
 ##@ NAT Gateways
 
 resource "aws_nat_gateway" "this" {
-  count = var.subnets_count
-
+  count         = var.subnets_count
   allocation_id = aws_eip.nat_eip[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
 
@@ -79,8 +76,7 @@ resource "aws_route_table" "web" {
 }
 
 resource "aws_route_table" "nat" {
-  count = var.subnets_count
-
+  count  = var.subnets_count
   vpc_id = aws_vpc.this.id
 
   tags = merge(var.tags, { "Name" = "${title(var.environment)}-Route-Table-${count.index + 1}-to-NAT" })
