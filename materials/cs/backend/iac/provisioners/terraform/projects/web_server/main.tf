@@ -25,3 +25,20 @@ module "vpc" {
   environment = var.environment
   tags        = local.tags
 }
+
+
+module "security_groups" {
+  source = "./modules/security"
+  depends_on = [
+    module.vpc.vpc_id,
+    module.vpc.public_subnets_ids,
+    module.vpc.private_subnets_ids
+  ]
+
+  vpc_id     = module.vpc.vpc_id
+  open_ports = var.open_ports
+  ssh_ips    = var.ssh_ips
+
+  environment = var.environment
+  tags        = local.tags
+}

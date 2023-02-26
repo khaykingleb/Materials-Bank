@@ -33,3 +33,15 @@ variable "subnets_count" {
   description = "Number of subnets to create for the VPC"
   default     = 1
 }
+
+variable "open_ports" {
+  type        = list(number)
+  description = "List of ports to open on Internet"
+  default     = [80, 443]
+}
+
+variable "ssh_ips" {
+  type        = list(string)
+  description = "List of IPs to allow SSH access"
+  default     = []
+}
