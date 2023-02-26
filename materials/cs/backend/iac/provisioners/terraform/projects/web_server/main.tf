@@ -29,11 +29,6 @@ module "vpc" {
 
 module "security_groups" {
   source = "./modules/security"
-  depends_on = [
-    module.vpc.vpc_id,
-    module.vpc.public_subnets_ids,
-    module.vpc.private_subnets_ids
-  ]
 
   vpc_id     = module.vpc.vpc_id
   open_ports = var.open_ports
@@ -41,4 +36,26 @@ module "security_groups" {
 
   environment = var.environment
   tags        = local.tags
+
+  depends_on = [
+    module.vpc.vpc_id,
+    module.vpc.public_subnets_ids,
+    module.vpc.private_subnets_ids
+  ]
+}
+
+
+module "elastic_load_balancer" {
+  source = "./modules/elb"
+
+  webserver_subnet_ids = module.vpc.public_subnets_ids
+  webserver_sg_id      = module.security_groups.webserver_sg_id
+
+  environment = var.environment
+  tags        = local.tags
+
+  depends_on = [
+    module.vpc.public_subnets_ids,
+    module.security_groups.webserver_sg_id,
+  ]
 }
