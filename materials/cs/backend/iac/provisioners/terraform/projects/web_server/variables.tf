@@ -45,3 +45,21 @@ variable "ssh_ips" {
   description = "List of IPs to allow SSH access"
   default     = []
 }
+
+variable "ec2_instance_type" {
+  type        = string
+  description = "EC2 instance type"
+  default     = "t2.micro"
+}
+
+variable "ec2_min_size" {
+  type        = number
+  description = "Minimum number of EC2 instances"
+  default     = 2
+}
+
+variable "ec2_max_size" {
+  type        = number
+  description = "Maximum number of EC2 instances"
+  default     = 4
+}

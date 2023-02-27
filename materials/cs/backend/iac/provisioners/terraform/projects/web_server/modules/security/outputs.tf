@@ -1,9 +1,14 @@
-output "webserver_sg_id" {
-  value       = aws_security_group.webserver.id
-  description = "Security group ID for webserver"
+output "public_sg_id" {
+  value       = aws_security_group.public.id
+  description = "Public security group ID"
 }
 
-output "ec2_sg_id" {
-  value       = aws_security_group.ec2.id
-  description = "Security group ID for EC2s"
+output "private_sg_id" {
+  value       = aws_security_group.private.id
+  description = "Private security group ID"
+}
+
+output "ssh_key" {
+  value       = tls_private_key.ssh.public_key_openssh
+  description = "OpenSSH public key"
 }

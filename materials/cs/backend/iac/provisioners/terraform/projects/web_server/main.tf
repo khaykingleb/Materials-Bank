@@ -1,14 +1,3 @@
-terraform {
-  required_version = ">= 1.3"
-  required_providers {
-    aws = "~> 4.0"
-  }
-}
-
-provider "aws" {
-  region = var.region
-}
-
 locals {
   tags = {
     full_project_name = "${var.environment}-${var.project_name}"
@@ -26,7 +15,7 @@ module "vpc" {
   tags        = local.tags
 }
 
-module "security_groups" {
+module "security" {
   source = "./modules/security"
 
   vpc_id     = module.vpc.vpc_id
@@ -46,14 +35,43 @@ module "security_groups" {
 module "elastic_load_balancer" {
   source = "./modules/elb"
 
-  webserver_subnet_ids = module.vpc.public_subnets_ids
-  webserver_sg_id      = module.security_groups.webserver_sg_id
+  public_subnet_ids = module.vpc.public_subnets_ids
+  public_sg_id      = module.security.public_sg_id
 
   environment = var.environment
   tags        = local.tags
 
   depends_on = [
     module.vpc.public_subnets_ids,
-    module.security_groups.webserver_sg_id,
+    module.security.public_sg_id,
+  ]
+}
+
+module "autoscaling_groups" {
+  source = "./modules/asg"
+
+  public_subnet_ids  = module.vpc.public_subnets_ids
+  private_subnet_ids = module.vpc.private_subnets_ids
+
+  public_sg_id  = module.security.public_sg_id
+  private_sg_id = module.security.private_sg_id
+  ssh_key       = module.security.ssh_key
+
+  elb_name = module.elastic_load_balancer.name
+
+  ec2_instance_type = var.ec2_instance_type
+  ec2_min_size      = var.ec2_min_size
+  ec2_max_size      = var.ec2_max_size
+
+  environment = var.environment
+  tags        = local.tags
+
+  depends_on = [
+    module.vpc.public_subnets_ids,
+    module.vpc.private_subnets_ids,
+    module.security.public_sg_id,
+    module.security.private_sg_id,
+    module.security.ssh_key,
+    module.elastic_load_balancer.name,
   ]
 }

@@ -1,12 +1,12 @@
-variable "webserver_subnet_ids" {
+variable "public_subnet_ids" {
   type        = list(string)
   description = "List of public subnet IDs"
   default     = []
 }
 
-variable "webserver_sg_id" {
+variable "public_sg_id" {
   type        = string
-  description = "Web security group ID"
+  description = "Public security group ID"
   default     = ""
 }
 

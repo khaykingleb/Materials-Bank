@@ -10,8 +10,8 @@ terraform {
 resource "aws_elb" "this" {
   name = "${title(var.environment)}-Webserver-ELB"
 
-  subnets         = var.webserver_subnet_ids
-  security_groups = [var.webserver_sg_id]
+  subnets         = var.public_subnet_ids
+  security_groups = [var.public_sg_id]
 
   listener {
     instance_port     = 80
