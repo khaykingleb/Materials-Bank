@@ -14,3 +14,14 @@ pytest-coverage.txt
 
 # IDE
 .vscode
+
+# Terraform
+.terraform
+*.tfvars
+*.tfstate
+terraform.tfstate.backup
+.terraform.tfstate.lock.info
+.terraform.lock.hcl
+
+# Miscellaneous
+ssh

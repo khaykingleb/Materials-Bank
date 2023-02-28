@@ -38,7 +38,7 @@ repo-init: repo-deps repo-pre-commit repo-env  ## Initialize repository by execu
 ##==================================================================================================
 ##@ Miscellaneous
 
-upd-pre-commit:  ## Update pre-commit hooks
+upd-hooks:  ## Update pre-commit hooks
 	poetry run pre-commit autoupdate
 
 gen-secrets-baseline:  ## Create .secrets.baseline file
