@@ -1,6 +1,6 @@
 locals {
   tags = {
-    project_name = "${title(var.environment)}-${var.project_name}"
+    project_name = "${var.environment}-${var.project_name}"
     owner        = var.owner
   }
 }

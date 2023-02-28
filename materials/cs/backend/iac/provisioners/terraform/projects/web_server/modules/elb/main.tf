@@ -8,7 +8,7 @@ terraform {
 ##@ Elastic Load Balancer (Classic Load Balancer)
 
 resource "aws_elb" "this" {
-  name = "${title(var.environment)}-Webserver-ELB"
+  name = "${var.environment}-webserver-elb"
 
   subnets         = var.public_subnet_ids
   security_groups = [var.public_sg_id]
@@ -27,5 +27,5 @@ resource "aws_elb" "this" {
     interval            = 30
   }
 
-  tags = var.tags
+  tags = merge(var.tags, { "name" = "${var.environment}-webserver-elb" })
 }

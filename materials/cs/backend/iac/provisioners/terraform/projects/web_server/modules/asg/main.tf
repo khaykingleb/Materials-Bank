@@ -10,13 +10,13 @@ terraform {
 resource "aws_key_pair" "this" {
   public_key = chomp(var.openssh_public_key)
 
-  tags = merge(var.tags, { "Name" = "${title(var.environment)}-EC2-Key-Pair" })
+  tags = merge(var.tags, { "name" = "${var.environment}-ec2-key-pair" })
 }
 
 ##@ Launch Configurations
 
 resource "aws_launch_configuration" "knox_fleet" { # Fort Knox Bastion Hosts
-  name_prefix = "${title(var.environment)}-Knox-Fleet-Configuration"
+  name_prefix = "${var.environment}-knox-fleet-configuration"
 
   security_groups = [var.public_sg_id]
 
@@ -30,7 +30,7 @@ resource "aws_launch_configuration" "knox_fleet" { # Fort Knox Bastion Hosts
 }
 
 resource "aws_launch_configuration" "web_fleet" { # Web Servers
-  name_prefix = "${title(var.environment)}-Web-Fleet-Configuration"
+  name_prefix = "${var.environment}-web-fleet-configuration"
 
   security_groups = [var.private_sg_id]
 
@@ -47,7 +47,7 @@ resource "aws_launch_configuration" "web_fleet" { # Web Servers
 ##@ Autoscaling Groups
 
 resource "aws_autoscaling_group" "knox_feet" {
-  name = "${title(var.environment)}-Knox-Fleet-ASG"
+  name = "${var.environment}-knox-fleet-asg"
 
   launch_configuration = aws_launch_configuration.knox_fleet.name
   min_size             = 1
@@ -58,8 +58,8 @@ resource "aws_autoscaling_group" "knox_feet" {
   load_balancers       = [var.elb_name]
 
   tag {
-    key                 = "Name"
-    value               = "${title(var.environment)}-Fort-Knox"
+    key                 = "name"
+    value               = "${var.environment}-fort-knox"
     propagate_at_launch = true
   }
   dynamic "tag" {
@@ -77,7 +77,7 @@ resource "aws_autoscaling_group" "knox_feet" {
 }
 
 resource "aws_autoscaling_group" "web_fleet" {
-  name = "${title(var.environment)}-Web-Fleet-ASG"
+  name = "${var.environment}-web-fleet-asg"
 
   launch_configuration = aws_launch_configuration.web_fleet.name
   min_size             = var.ec2_min_size
@@ -88,8 +88,8 @@ resource "aws_autoscaling_group" "web_fleet" {
   load_balancers       = [var.elb_name]
 
   tag {
-    key                 = "Name"
-    value               = "${title(var.environment)}-Web-Server"
+    key                 = "name"
+    value               = "${var.environment}-web-server"
     propagate_at_launch = true
   }
   dynamic "tag" {
