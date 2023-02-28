@@ -10,7 +10,7 @@ terraform {
 ##@ Security Groups
 
 resource "aws_security_group" "public" {
-  name        = "${var.environment}-Public-SG"
+  name        = "${var.environment}-public-sg"
   description = "Allow traffic from and to the Internet"
   vpc_id      = var.vpc_id
 
@@ -36,11 +36,11 @@ resource "aws_security_group" "public" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.tags, { "name" = "${var.environment}-Webserver-SG" })
+  tags = merge(var.tags, { "name" = "${var.environment}-public-sg" })
 }
 
 resource "aws_security_group" "private" {
-  name        = "${var.environment}-Private-SG"
+  name        = "${var.environment}-private-sg"
   description = "Security group for EC2 webservers within VPC"
   vpc_id      = var.vpc_id
 
@@ -60,7 +60,7 @@ resource "aws_security_group" "private" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.tags, { "name" = "${var.environment}-EC2-SG" })
+  tags = merge(var.tags, { "name" = "${var.environment}-private-sg" })
 }
 
 
