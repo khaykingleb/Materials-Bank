@@ -8,7 +8,7 @@ output "private_sg_id" {
   description = "Private security group ID"
 }
 
-output "ssh_key" {
+output "openssh_public_key" {
   value       = tls_private_key.ssh.public_key_openssh
   description = "OpenSSH public key"
 }

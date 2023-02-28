@@ -22,7 +22,7 @@ variable "private_sg_id" {
   default     = ""
 }
 
-variable "ssh_key" {
+variable "openssh_public_key" {
   type        = string
   description = "OpenSSH public key"
   default     = ""

@@ -1,7 +1,7 @@
 locals {
   tags = {
-    full_project_name = "${var.environment}-${var.project_name}"
-    owner             = var.owner
+    project_name = "${title(var.environment)}-${var.project_name}"
+    owner        = var.owner
   }
 }
 
@@ -53,9 +53,9 @@ module "autoscaling_groups" {
   public_subnet_ids  = module.vpc.public_subnets_ids
   private_subnet_ids = module.vpc.private_subnets_ids
 
-  public_sg_id  = module.security.public_sg_id
-  private_sg_id = module.security.private_sg_id
-  ssh_key       = module.security.ssh_key
+  public_sg_id       = module.security.public_sg_id
+  private_sg_id      = module.security.private_sg_id
+  openssh_public_key = module.security.openssh_public_key
 
   elb_name = module.elastic_load_balancer.name
 

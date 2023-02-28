@@ -5,6 +5,14 @@ terraform {
   }
 }
 
+##@ EC2 Key Pair
+
+resource "aws_key_pair" "this" {
+  public_key = chomp(var.openssh_public_key)
+
+  tags = merge(var.tags, { "Name" = "${title(var.environment)}-EC2-Key-Pair" })
+}
+
 ##@ Launch Configurations
 
 resource "aws_launch_configuration" "knox_fleet" { # Fort Knox Bastion Hosts
@@ -14,7 +22,7 @@ resource "aws_launch_configuration" "knox_fleet" { # Fort Knox Bastion Hosts
 
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = var.ec2_instance_type
-  key_name      = var.ssh_key
+  key_name      = aws_key_pair.this.key_name
 
   lifecycle {
     create_before_destroy = true
@@ -29,7 +37,7 @@ resource "aws_launch_configuration" "web_fleet" { # Web Servers
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = var.ec2_instance_type
   user_data     = file(abspath("scripts/user_data.sh"))
-  key_name      = var.ssh_key
+  key_name      = aws_key_pair.this.key_name
 
   lifecycle {
     create_before_destroy = true
