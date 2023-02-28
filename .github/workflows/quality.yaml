@@ -9,7 +9,10 @@ env:
 jobs:
   Quality:
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
     env:
       SKIP: no-commit-to-branch
     steps:
@@ -25,11 +28,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.tflint.d/plugins
-          key: ubuntu-latest-tflint-${{ hashFiles('.tflint.hcl') }}
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v3
         with:
-          tflint_version: v1.77.1
+          tflint_version: v0.44.1
       - name: Check all files with pre-commit and update globally available pre-commit cache
         uses: pre-commit/action@v2.0.3
       - name: Check all commits
