@@ -20,6 +20,7 @@ flake8 = "^6.0.0"
 [tool.poetry.group.research.dependencies]
 ipykernel = "^6.21.3"
 ipython = "^8.11.0"
+ipywidgets = "^8.0.4"
 
 [tool.black]
 line-length = 100
