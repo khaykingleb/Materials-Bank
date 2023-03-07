@@ -8,6 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+torch = "^1.13.1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.0.4"
@@ -15,6 +16,10 @@ commitizen = "^2.42.0"
 detect-secrets = "^1.4.0"
 black = "^23.1.0"
 flake8 = "^6.0.0"
+
+[tool.poetry.group.research.dependencies]
+ipykernel = "^6.21.3"
+ipython = "^8.11.0"
 
 [tool.black]
 line-length = 100
