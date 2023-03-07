@@ -1,0 +1,5 @@
+[flake8]
+docstring-convention = google
+import-order-style = smarkets
+extend-exclude =  # exclude files from being linted
+  materials/mle/mlops/efficient_dl/01_intro/*
