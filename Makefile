@@ -36,6 +36,12 @@ repo-env:  ## Configure environment variables
 repo-init: repo-deps repo-pre-commit repo-env  ## Initialize repository by executing above commands
 
 ##==================================================================================================
+##@ Dependencies Issues
+
+pytorch-unistall-cu11:  # Uninstall nvidia_cublas_cu11 if CUDAtoolkit are already installed
+	pip uninstall nvidia_cublas_cu11
+
+##==================================================================================================
 ##@ Miscellaneous
 
 upd-hooks:  ## Update pre-commit hooks
