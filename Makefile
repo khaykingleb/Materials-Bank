@@ -17,6 +17,12 @@ ifeq ($(shell echo $$SHELL), /bin/bash)
 	echo $(shell echo 'eval "$$(direnv hook bash)"') >> ~/.bashrc
 endif
 
+create-conda-env:  ## Create conda environment
+	conda create -n materials_bank_env -y python=3.11
+
+delete-conda-env:  ## Delete conda environment
+	conda env remove -n materials_bank_env
+
 ##==================================================================================================
 ##@ Repo Initialization
 
