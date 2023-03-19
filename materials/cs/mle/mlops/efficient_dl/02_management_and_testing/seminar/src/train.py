@@ -39,7 +39,9 @@ def main():
     )
 
     train_loader = torch.utils.data.DataLoader(
-        dataset=train_dataset, batch_size=config["batch_size"], shuffle=True
+        dataset=train_dataset,
+        batch_size=config["batch_size"],
+        shuffle=True,
     )
 
     test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=config["batch_size"])
@@ -47,14 +49,19 @@ def main():
     device = torch.device("cuda")
 
     model = resnet18(
-        pretrained=False, num_classes=10, zero_init_residual=config["zero_init_residual"]
+        pretrained=False,
+        num_classes=10,
+        zero_init_residual=config["zero_init_residual"],
     )
     model.to(device)
     wandb.watch(model)
 
     criterion = nn.CrossEntropyLoss()
+    scaler = torch.cuda.amp.GradScaler()
     optimizer = torch.optim.AdamW(
-        model.parameters(), lr=config["learning_rate"], weight_decay=config["weight_decay"]
+        model.parameters(),
+        lr=config["learning_rate"],
+        weight_decay=config["weight_decay"],
     )
 
     for epoch in trange(config["epochs"]):
@@ -62,11 +69,13 @@ def main():
             images = images.to(device)
             labels = labels.to(device)
 
-            outputs = model(images)
-            loss = criterion(outputs, labels)
+            with torch.autocast(device_type="cuda"):
+                outputs = model(images)
+                loss = criterion(outputs, labels)
 
-            loss.backward()
-            optimizer.step()
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
             optimizer.zero_grad()
 
             if i % 100 == 0:
@@ -88,6 +97,7 @@ def main():
 
                 metrics = {"test_acc": accuracy, "train_loss": loss}
                 wandb.log(metrics, step=epoch * len(train_dataset) + (i + 1) * config["batch_size"])
+
     torch.save(model.state_dict(), "model.pt")
 
     with open("run_id.txt", "w+") as f:
