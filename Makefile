@@ -38,7 +38,7 @@ repo-init: repo-deps repo-pre-commit repo-env  ## Initialize repository by execu
 ##==================================================================================================
 ##@ Dependencies Issues
 
-unistall-cublas-cu:  ## Uninstall nvidia_cublas_cu11 if CUDAtoolkit are already installed
+unistall-cublas-cu:  ## Uninstall nvidia_cublas_cu11 if CUDA Toolkit is already installed
 	pip uninstall nvidia_cublas_cu11
 
 ##==================================================================================================
