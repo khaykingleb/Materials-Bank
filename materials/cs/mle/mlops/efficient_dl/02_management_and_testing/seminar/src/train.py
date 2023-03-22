@@ -3,6 +3,7 @@ import torch.nn as nn
 import torchvision.transforms as transforms
 import wandb
 from hparams import config
+from settings import BASE_DIR
 from torchvision.datasets import CIFAR10
 from torchvision.models import resnet18
 from tqdm import tqdm, trange
@@ -25,14 +26,14 @@ def main():
     )
 
     train_dataset = CIFAR10(
-        root="CIFAR10/train",
+        root=BASE_DIR / "CIFAR10" / "train",
         train=True,
         transform=transform,
         download=False,
     )
 
     test_dataset = CIFAR10(
-        root="CIFAR10/test",
+        root=BASE_DIR / "CIFAR10" / "test",
         train=False,
         transform=transform,
         download=False,
