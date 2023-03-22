@@ -3,7 +3,8 @@ from argparse import ArgumentParser
 
 import torch
 import torchvision.transforms as transforms
-import wandb
+
+# import wandb
 from hparams import config
 from settings import BASE_DIR
 from torchvision.datasets import CIFAR10
@@ -11,8 +12,8 @@ from torchvision.models import resnet18
 
 
 def main(args):
-    api = wandb.Api()
-    run = api.run(f"khaykingleb/effdl_example/{args.run_id}")
+    # api = wandb.Api()
+    # run = api.run(f"khaykingleb/effdl_example/{args.run_id}")
 
     transform = transforms.Compose(
         [
@@ -49,8 +50,8 @@ def main(args):
 
     accuracy = correct / len(test_dataset)
 
-    run.summary["accuracy"] = accuracy
-    run.summary.update()
+    # run.summary["accuracy"] = accuracy
+    # run.summary.update()
 
     with open("final_metrics.json", "w+") as f:
         json.dump({"accuracy": accuracy.item()}, f)
@@ -59,6 +60,6 @@ def main(args):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("--run-id", type=str, required=True)
+    # parser.add_argument("--run-id", type=str, required=True)
     args = parser.parse_args()
     main(args)
