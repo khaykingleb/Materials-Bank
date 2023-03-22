@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
 import wandb
-from hparams import config
-from settings import BASE_DIR
+from src.hparams import config
+from src.settings import BASE_DIR
 from torchvision.datasets import CIFAR10
 from torchvision.models import resnet18
 from tqdm import tqdm, trange

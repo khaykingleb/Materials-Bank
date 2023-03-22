@@ -3,10 +3,10 @@ from argparse import ArgumentParser
 
 import torch
 import torchvision.transforms as transforms
+from settings import BASE_DIR
 
 # import wandb
-from hparams import config
-from settings import BASE_DIR
+from src.hparams import config
 from torchvision.datasets import CIFAR10
 from torchvision.models import resnet18
 

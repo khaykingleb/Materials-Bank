@@ -1,4 +1,4 @@
-from settings import BASE_DIR
+from src.settings import BASE_DIR
 from torchvision.datasets import CIFAR10
 
 if __name__ == "__main__":
