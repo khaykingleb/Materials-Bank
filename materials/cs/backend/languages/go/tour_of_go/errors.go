@@ -15,6 +15,7 @@ func Sqrt(x float64) (float64, error) {
 	if x < 0 {
 		return x, NegativeSqrtError(x)
 	}
+
 	return math.Sqrt(x), nil
 }
 
