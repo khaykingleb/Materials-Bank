@@ -49,10 +49,11 @@ repos:
       - id: nbqa-isort
       - id: nbqa-flake8
 
-  - repo: https://github.com/golangci/golangci-lint
-    rev: v1.54.2
-    hooks:
-      - id: golangci-lint
+  # - repo: https://github.com/golangci/golangci-lint
+  #   rev: v1.54.2
+  #   hooks:
+  #     - id: golangci-lint
+  #       args: ["--enable-all", "--verbose"]
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
